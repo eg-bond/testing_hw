@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './configureStore';
 
@@ -7,7 +7,7 @@ export interface taskListState {
   notification: string;
 }
 
-const initialState: taskListState = {
+export const initialState: taskListState = {
   list: [],
   notification: '',
 };
@@ -64,6 +64,20 @@ export const {
 export default taskListSlice.reducer;
 
 export const tasksSelector = (state: RootState) => state.taskList.list;
+
+export const activeTasksSelector = createSelector(
+  [tasksSelector],
+  (tasks: Task[]): Task[] => {
+    return tasks.filter(item => !item.done);
+  }
+);
+
+export const doneTasksSelector = createSelector(
+  [tasksSelector],
+  (tasks: Task[]): Task[] => {
+    return tasks.filter(item => item.done);
+  }
+);
 
 export const fullCount = (state: RootState) => state.taskList.list.length;
 

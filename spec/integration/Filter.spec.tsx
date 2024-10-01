@@ -1,19 +1,37 @@
 import { render, screen } from '@testing-library/react';
 import { JestStoreProvider } from '../utils/JestStoreProvider';
 import { TaskList } from 'src/modules/TaskList';
-import userEvent from '@testing-library/user-event';
+import ue from '@testing-library/user-event';
+import { store } from 'src/store/configureStore';
+import { addTask, completeTask } from 'src/store/taskSlice';
 
-const items: Task[] = [
+const items = [
   {
-    id: '1',
     header: 'купить хлеб',
     done: false,
   },
-  { id: '2', header: 'купить молоко', done: false },
-  { id: '3', header: 'выгулять собаку', done: true },
+  {
+    header: 'купить молоко',
+    done: false,
+  },
+  {
+    header: 'выгулять собаку',
+    done: true,
+  },
 ];
 
+const userEvent = ue.setup({
+  advanceTimers: jest.advanceTimersByTime,
+});
+
 describe('Список задач', () => {
+  beforeAll(() => {
+    // setup test store
+    store.dispatch(addTask(items[0].header));
+    store.dispatch(addTask(items[1].header));
+    store.dispatch(addTask(items[2].header));
+    store.dispatch(completeTask(store.getState().taskList.list[0].id));
+  });
   // не содержит выполненные задачи
   // после нажатия на кнопку фильтрации по активным
   it('с включенным фильтром по активным', async () => {
