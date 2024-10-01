@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "./configureStore";
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from './configureStore';
 
 export interface taskListState {
   list: Task[];
@@ -9,29 +9,29 @@ export interface taskListState {
 
 const initialState: taskListState = {
   list: [],
-  notification: "",
+  notification: '',
 };
 
 export const taskListSlice = createSlice({
-  name: "taskList",
+  name: 'taskList',
   initialState,
   reducers: {
-    addTask: (state, action: PayloadAction<Task["header"]>) => {
+    addTask: (state, action: PayloadAction<Task['header']>) => {
       state.list.push({
         id: crypto.randomUUID(),
         header: action.payload,
         done: false,
       });
     },
-    completeTask: (state, action: PayloadAction<Task["id"]>) => {
-      const task = state.list.find((x) => x.id === action.payload);
+    completeTask: (state, action: PayloadAction<Task['id']>) => {
+      const task = state.list.find(x => x.id === action.payload);
 
       if (task) {
         task.done = true;
       }
     },
-    toggleTask: (state, action: PayloadAction<Task["id"]>) => {
-      const task = state.list.find((x) => x.id === action.payload);
+    toggleTask: (state, action: PayloadAction<Task['id']>) => {
+      const task = state.list.find(x => x.id === action.payload);
 
       if (task) {
         task.done = !task.done;
@@ -41,14 +41,14 @@ export const taskListSlice = createSlice({
         }
       }
     },
-    deleteTask: (state, action: PayloadAction<Task["id"]>) => {
-      state.list = state.list.filter((x) => x.id !== action.payload);
+    deleteTask: (state, action: PayloadAction<Task['id']>) => {
+      state.list = state.list.filter(x => x.id !== action.payload);
     },
-    setNotification: (state, action: PayloadAction<Task["header"]>) => {
+    setNotification: (state, action: PayloadAction<Task['header']>) => {
       state.notification = `Задача "${action.payload}" завершена`;
     },
-    clearNotification: (state) => {
-      state.notification = "";
+    clearNotification: state => {
+      state.notification = '';
     },
   },
 });
@@ -68,10 +68,10 @@ export const tasksSelector = (state: RootState) => state.taskList.list;
 export const fullCount = (state: RootState) => state.taskList.list.length;
 
 export const completeCount = (state: RootState) =>
-  state.taskList.list.filter((x) => x.done).length;
+  state.taskList.list.filter(x => x.done).length;
 
 export const uncompleteCount = (state: RootState) =>
-  state.taskList.list.filter((x) => !x.done).length;
+  state.taskList.list.filter(x => !x.done).length;
 
 export const getNotification = (state: RootState) =>
-  state.taskList.notification
+  state.taskList.notification;
