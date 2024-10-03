@@ -5,7 +5,7 @@ exports[`отображение списка задач 1`] = `
 - First value
 + Second value
 
-@@ -46,32 +46,7 @@
+@@ -46,30 +46,7 @@
             alt="Удалить"
             src="[object Object]"
           />
@@ -15,20 +15,18 @@ exports[`отображение списка задач 1`] = `
 -       class="item-wrapper"
 -     >
 -       <input
--         checked=""
 -         id="3"
 -         type="checkbox"
 -       />
 -       <label
 -         for="3"
 -       >
--         <s>
--           выгулять собаку
--         </s>
+-         ...
 -       </label>
 -       <button
 -         class="button button-with-icon"
 -         data-alt="Удалить"
+-         disabled=""
 -       >
 -         <img
 -           alt="Удалить"
