@@ -61,5 +61,18 @@ describe('Элемент списка задач', () => {
     const deleteButton = screen.getByRole('button');
     expect(deleteButton).not.toBeDisabled();
   });
-  it.todo('выполненная задача обозначается перечеркнутой');
+  it('выполненная задача обозначается перечеркнутой', () => {
+    render(
+      <Item
+        id='5'
+        header='Купить газету'
+        done={true}
+        onDelete={onDelete}
+        onToggle={onToggle}
+      />
+    );
+
+    const taskHeader = screen.getByText(/Купить газету/i);
+    expect(taskHeader).toHaveStyle('text-decoration: line-through');
+  });
 });

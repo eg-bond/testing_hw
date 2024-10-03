@@ -24,10 +24,7 @@ export const Item = (props: Props) => {
         defaultChecked={props.done}
         onChange={() => props.onToggle(props.id)}
       />
-      <label
-        htmlFor={props.id}
-        data-testid='header'
-        onClick={() => props.onToggle(props.id)}>
+      <label htmlFor={props.id} data-testid='header'>
         {props.done ? <s>{header}</s> : header}
       </label>
       <DeleteButton
