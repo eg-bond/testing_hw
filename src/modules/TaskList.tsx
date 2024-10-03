@@ -3,18 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Empty } from 'src/components/Empty';
 import { Filter, FilterType } from 'src/components/Filter';
 import { List } from 'src/components/List';
-import {
-  activeTasksSelector,
-  deleteTask,
-  doneTasksSelector,
-  tasksSelector,
-  toggleTask,
-} from 'src/store/taskSlice';
+import { deleteTask, tasksSelector, toggleTask } from 'src/store/taskSlice';
 
 export const TaskList = () => {
   const allTasks = useSelector(tasksSelector);
-  const activeTasks = useSelector(activeTasksSelector);
-  const doneTasks = useSelector(doneTasksSelector);
 
   const dispatch = useDispatch();
   const [itemsToList, setItemsToList] = useState<Task[]>(allTasks);
@@ -37,8 +29,6 @@ export const TaskList = () => {
         setItemsToList={setItemsToList}
         setCurrentFilter={setCurrentFilter}
         allTasks={allTasks}
-        activeTasks={activeTasks}
-        doneTasks={doneTasks}
       />
       {itemsToList.length > 0 ? (
         <List
