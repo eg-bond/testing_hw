@@ -8,6 +8,10 @@ type Props = Task & {
 export const Item = (props: Props) => {
   let header = props.header;
 
+  if (props.header.length < 1) {
+    header = 'Задача без названия';
+  }
+
   if (props.header.length > 32) {
     header = props.header.slice(0, 32);
   }
