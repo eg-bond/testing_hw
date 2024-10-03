@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { activeTasksSelector, doneTasksSelector } from 'src/store/taskSlice';
 
 export enum FilterType {
   All = 'all',
@@ -11,8 +13,6 @@ interface IFilter {
   setItemsToList: React.Dispatch<React.SetStateAction<Task[]>>;
   setCurrentFilter: React.Dispatch<React.SetStateAction<FilterType>>;
   allTasks: Task[];
-  activeTasks: Task[];
-  doneTasks: Task[];
 }
 
 export const Filter = ({
@@ -20,9 +20,9 @@ export const Filter = ({
   setItemsToList,
   setCurrentFilter,
   allTasks,
-  activeTasks,
-  doneTasks,
 }: IFilter) => {
+  const activeTasks = useSelector(activeTasksSelector);
+  const doneTasks = useSelector(doneTasksSelector);
   // update itemsToList if state changes
   useEffect(() => {
     if (currentFilter === FilterType.All) setItemsToList(allTasks);
