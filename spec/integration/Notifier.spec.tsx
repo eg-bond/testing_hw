@@ -16,10 +16,6 @@ const items = [
     header: 'купить молоко',
     done: false,
   },
-  {
-    header: 'выгулять собаку',
-    done: false,
-  },
 ];
 
 const userEvent = ue.setup({
@@ -44,10 +40,32 @@ describe('Оповещение при выполнении задачи', () => 
     const taskCheckbox = screen.getByRole('checkbox');
     await userEvent.click(taskCheckbox);
 
-    const notifierWrapper = screen.getByTestId('notifier-wrapper');
+    const notifier = screen.getByTestId('notifier');
 
-    expect(notifierWrapper).toBeInTheDocument();
-    expect(notifierWrapper).toHaveTextContent(items[0].header);
+    expect(notifier).toBeInTheDocument();
+    expect(notifier).toHaveTextContent(items[0].header);
   });
-  it.todo('одновременно может отображаться только одно');
+  it('одновременно может отображаться только одно', async () => {
+    // setup test state
+    store.dispatch(addTask(items[0].header));
+    store.dispatch(addTask(items[1].header));
+
+    render(
+      <>
+        <TaskList />
+        <NotifierContainer />
+      </>,
+      {
+        wrapper: JestStoreProvider,
+      }
+    );
+
+    const [task1Checkbox, task2Checkbox] = screen.getAllByRole('checkbox');
+    await userEvent.click(task1Checkbox);
+    await userEvent.click(task2Checkbox);
+
+    const notifier = screen.getAllByTestId('notifier');
+
+    expect(notifier).toHaveLength(1);
+  });
 });
