@@ -1,21 +1,30 @@
-import { DeleteButton } from "./DeleteButton";
+import { DeleteButton } from './DeleteButton';
 
 type Props = Task & {
-  onDelete: (id: Task["id"]) => void;
-  onToggle: (id: Task["id"]) => void;
+  onDelete: (id: Task['id']) => void;
+  onToggle: (id: Task['id']) => void;
 };
 
 export const Item = (props: Props) => {
+  let header = props.header;
+
+  if (props.header.length > 32) {
+    header = props.header.slice(0, 32);
+  }
+
   return (
-    <li className="item-wrapper">
+    <li className='item-wrapper'>
       <input
-        type="checkbox"
+        type='checkbox'
         id={props.id}
         defaultChecked={props.done}
         onChange={() => props.onToggle(props.id)}
       />
-      <label htmlFor={props.id} onClick={() => props.onToggle(props.id)}>
-        {props.done ? <s>{props.header}</s> : props.header}
+      <label
+        htmlFor={props.id}
+        data-testid='header'
+        onClick={() => props.onToggle(props.id)}>
+        {props.done ? <s>{header}</s> : header}
       </label>
       <DeleteButton
         disabled={!props.done}
