@@ -22,7 +22,7 @@ describe('Элемент списка задач', () => {
   it('название не должно быть пустым', () => {
     render(
       <Item
-        id='1'
+        id='2'
         header=''
         done={false}
         onDelete={onDelete}
@@ -33,7 +33,33 @@ describe('Элемент списка задач', () => {
     const taskHeader = screen.getByTestId('header');
     expect(taskHeader.textContent?.length).not.toBeLessThanOrEqual(1);
   });
-  it.todo('нельзя удалять невыполненные задачи');
-  it.todo('задачу можно удалить если она отмечена выполненной');
+  it('нельзя удалять невыполненные задачи', () => {
+    render(
+      <Item
+        id='3'
+        header='Помыть машину'
+        done={false}
+        onDelete={onDelete}
+        onToggle={onToggle}
+      />
+    );
+
+    const deleteButton = screen.getByRole('button');
+    expect(deleteButton).toBeDisabled();
+  });
+  it('задачу можно удалить если она отмечена выполненной', () => {
+    render(
+      <Item
+        id='4'
+        header='Выгулять собаку'
+        done={true}
+        onDelete={onDelete}
+        onToggle={onToggle}
+      />
+    );
+
+    const deleteButton = screen.getByRole('button');
+    expect(deleteButton).not.toBeDisabled();
+  });
   it.todo('выполненная задача обозначается перечеркнутой');
 });
